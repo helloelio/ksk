@@ -172,7 +172,7 @@ let createCard = () => {
         let shiftY = event.clientY - cardItem.getBoundingClientRect().top;
         cardItem.style.position = 'absolute';
         cardItem.style.zIndex = 1000;
-        document.body.append(cardItem);
+        cards.append(cardItem);
         moveAt(event.pageX, event.pageY);
         function moveAt(pageX, pageY) {
             cardItem.style.left = pageX - shiftX + 'px';
