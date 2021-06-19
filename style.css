@@ -284,6 +284,14 @@ form {
     color: white;
     margin: 0 auto;
 }
+.create-card:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+.create-card:disabled:hover {
+    opacity: 0.3;
+    cursor: default;
+}
 .create-card:hover {
     background: #3b36a5;
 }
@@ -294,10 +302,4 @@ form {
     font-size: 2.5em;
     color: white;
     cursor: pointer;
-}
-#text {
-    cursor: pointer;
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
 }
