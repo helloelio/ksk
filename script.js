@@ -18,15 +18,40 @@ const cardMenuBtns = document.querySelectorAll('.menu-btn');
 
 const editMenus = document.querySelectorAll('.edit-modal');
 
+//              блок с карточками
+
+const cards = document.querySelector('.cards');
+
+//              строка ввода данных в модальном окне добавления
+
+//              кнопка 'добавить' в модальном окне добавления
+const inputCardNumber = document.getElementById('card-number');
+
+const createCardButton = document.querySelector('.create-card');
+
 //              открытие модального окна добавления "товара"
 
 let openCardMenu = () => {
     createMenu.style.display = 'flex';
+    // set attribute disable to button 'add' by default
+    createCardButton.setAttribute('disabled', 'dissabled');
+    // event listener by keydown changes
+    inputCardNumber.addEventListener('keydown', () => {
+        // condition for empty string in input
+        //TODO: add select condition
+        if (inputCardNumber.value == ' ' || null) {
+            createCardButton.setAttribute('disabled', 'dissabled');
+        } else {
+            createCardButton.removeAttribute('disabled');
+        }
+    });
 };
+
 //              закрытие модального окна добавления нажатием на "крестик x"
 
 let closeCardMenuByButton = () => {
     createMenu.style.display = 'none';
+    inputCardNumber.value = '';
 };
 
 //              закрытие модального окна добавления нажатием на кнопку `Escape` "
@@ -36,17 +61,6 @@ let closeCardMenuByKey = (event) => {
         createMenu.style.display = 'none';
     }
 };
-//              блок с карточками
-
-const cards = document.querySelector('.cards');
-
-//              кнопка 'добавить' в модальном окне добавления
-
-const createCardButton = document.querySelector('.create-card');
-
-//              строка ввода данных в модальном окне добавления
-
-const inputCardNumber = document.getElementById('card-number');
 
 let count = 1;
 
@@ -105,7 +119,7 @@ let createCard = () => {
     let cardMenuImg = document.createElement('img');
     cardMenuImg.src = './icons/menu.png';
     cardMenuBtn.appendChild(cardMenuImg);
-    inputCardNumber.value = ' ';
+    inputCardNumber.value = '';
     createMenu.style.display = 'none';
 
     // create modal
@@ -162,8 +176,6 @@ let createCard = () => {
     cardMenuBtn.addEventListener('click', (event) => {
         editModal.classList.toggle('edit-modal-flex');
     });
-
-    //
 
     // drag card by button
     let currentDroppable = null;
