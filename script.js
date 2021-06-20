@@ -37,6 +37,7 @@ console.log(checkboxDrag);
 
 let openCardMenu = () => {
     createMenu.style.display = 'flex';
+    // set focus to input card number
     inputCardNumber.focus();
     // set attribute disable to button 'add' by default
     createCardButton.setAttribute('disabled', 'dissabled');
