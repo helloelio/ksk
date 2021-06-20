@@ -71,7 +71,8 @@ let closeCardMenuByKey = (event) => {
 };
 
 checkboxDrag.addEventListener('change', () => {
-    console.log(checkboxDrag.checked);
+    if (checkboxDrag.checked == 'true') {
+    }
 });
 
 let count = localStorage.getItem('count') || 0;
@@ -92,7 +93,7 @@ let createCard = (
                     <button class="edit-btn"><img src="./icons/edit.png" style="margin-right: 10px;"><span>редактировать</span></button>
                     <button class="delete-btn delete-btn-${id}"><img src="./icons/close.png" style="margin-right: 10px;"><span>удалить</span></button>
                     </div>
-                    <button class="drag-btn"><img src="./icons/move.png"></button>
+                    <button class="drag-btn drag-btn-${id}"><img src="./icons/move.png"></button>
                     <button class="menu-btn btn-${id}"><img src="./icons/menu.png"></button>
                 </div>
             </div>
@@ -139,6 +140,11 @@ let createCard = (
         });
 
     // drag card by button
+    document
+        .querySelector(`.drag-btn-${id}`)
+        .addEventListener('mousedown', () => {
+            // TODO: fix this(drag function)
+        });
     return;
 };
 
