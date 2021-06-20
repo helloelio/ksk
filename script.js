@@ -20,14 +20,15 @@ const editMenus = document.querySelectorAll('.edit-modal');
 
 //              блок с карточками
 
-const cards = document.querySelector('.cards');
+let cards = document.querySelector('.cards');
 
 //              строка ввода данных в модальном окне добавления
 
-//              кнопка 'добавить' в модальном окне добавления
-const inputCardNumber = document.getElementById('card-number');
+let inputCardNumber = document.getElementById('card-number');
 
-const createCardButton = document.querySelector('.create-card');
+//              кнопка 'добавить' в модальном окне добавления
+
+let createCardButton = document.querySelector('.create-card');
 
 //              открытие модального окна добавления "товара"
 
@@ -126,6 +127,7 @@ let createCard = () => {
     let editModal = document.createElement('div');
     editModal.classList.add('edit-modal');
     editModal.classList.add(`edit-modal-${count}`);
+
     // edit button
     let editButton = document.createElement('button');
     editButton.classList.add('edit-btn');
@@ -134,7 +136,8 @@ let createCard = () => {
     editButtonImg.style.marginRight = '10px';
     let editButtonText = document.createElement('span');
     editButtonText.textContent = 'редактировать';
-    //
+
+    // delete button
     let deleteButton = document.createElement('button');
     deleteButton.classList.add('delete-btn');
     let deleteButtonImg = document.createElement('img');
@@ -142,7 +145,8 @@ let createCard = () => {
     deleteButtonImg.style.marginRight = '10px';
     let deleteButtonText = document.createElement('span');
     deleteButtonText.textContent = 'удалить';
-    //
+
+    // formate card buttons
     editButton.appendChild(editButtonImg);
     editButton.appendChild(editButtonText);
     deleteButton.appendChild(deleteButtonImg);
@@ -180,6 +184,10 @@ let createCard = () => {
     // drag card by button
     let currentDroppable = null;
     dragBtn.addEventListener('mousedown', (event) => {
+        event.currentTarget.parentNode.parentNode.parentNode.classList.add(
+            'dragging'
+        );
+        dragBtn.style.cursor = 'grab';
         let shiftX = event.clientX - cardItem.getBoundingClientRect().left;
         let shiftY = event.clientY - cardItem.getBoundingClientRect().top;
         cardItem.style.position = 'absolute';
@@ -208,14 +216,14 @@ let createCard = () => {
                 currentDroppable = droppableBelow;
                 if (currentDroppable) {
                     // null if we're not coming over a droppable now
-                    // (maybe just left the droppable)
                     enterDroppable(currentDroppable);
                 }
             }
         }
         document.addEventListener('mousemove', onMouseMove);
-        cardItem.onmouseup = function () {
+        cardItem.onmouseup = function (event) {
             document.removeEventListener('mousemove', onMouseMove);
+            event.currentTarget.classList.remove('dragging');
             cardItem.onmouseup = null;
             cardItem.style.position = null;
         };
@@ -229,6 +237,48 @@ let createCard = () => {
             return false;
         };
     });
+
+    // TODO: mb fix to vertical and horizontal
+    // let draggables = document.querySelectorAll('.draggable');
+    // draggables.forEach((draggable) => {
+    //     draggable.addEventListener('dragstart', () => {
+    //         draggable.classList.add('dragging');
+    //     });
+
+    //     draggable.addEventListener('dragend', () => {
+    //         draggable.classList.remove('dragging');
+    //     });
+    // });
+
+    // cards.addEventListener('dragover', (e) => {
+    //     e.preventDefault();
+    //     const afterElement = getDragAfterElement(cards, e.clientY);
+    //     const draggable = document.querySelector('.dragging');
+    //     if (afterElement == null) {
+    //         cards.appendChild(draggable);
+    //     } else {
+    //         cards.insertBefore(draggable, afterElement);
+    //     }
+    // });
+
+    // function getDragAfterElement(cards, y) {
+    //     const draggableElements = [
+    //         ...cards.querySelectorAll('.draggable:not(.dragging)'),
+    //     ];
+
+    //     return draggableElements.reduce(
+    //         (closest, child) => {
+    //             const box = child.getBoundingClientRect();
+    //             const offset = y - box.top - box.height / 2;
+    //             if (offset < 0 && offset > closest.offset) {
+    //                 return { offset: offset, element: child };
+    //             } else {
+    //                 return closest;
+    //             }
+    //         },
+    //         { offset: Number.NEGATIVE_INFINITY }
+    //     ).element;
+    // }
     // delete card by button
     deleteButton.addEventListener('click', (event) => {
         console.log(
