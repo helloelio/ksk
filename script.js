@@ -74,7 +74,7 @@ checkboxDrag.addEventListener('change', () => {
     console.log(checkboxDrag.checked);
 });
 
-let count = localStorage.getItem('count') || 1;
+let count = localStorage.getItem('count') || 0;
 
 let createCard = (
     selectOptionType,
@@ -133,6 +133,9 @@ let createCard = (
         .addEventListener('click', (event) => {
             console.log(document.querySelector(`.card-${id}`));
             document.querySelector(`.card-${id}`).remove();
+            let arr = JSON.parse(localStorage.getItem('cards')) ?? {};
+            delete arr[id];
+            localStorage.setItem('cards', JSON.stringify(arr));
         });
 
     // drag card by button
@@ -187,6 +190,9 @@ createMenu.addEventListener('keydown', (event) => {
 function initCards() {
     const cards = JSON.parse(localStorage.getItem('cards'));
     for (let card of cards) {
+        if (card == null) {
+            continue;
+        }
         createCard(
             card.selectOptionType,
             card.inputCardNumber,
