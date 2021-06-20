@@ -217,6 +217,7 @@ let createCard = () => {
         cardItem.onmouseup = function () {
             document.removeEventListener('mousemove', onMouseMove);
             cardItem.onmouseup = null;
+            cardItem.style.position = null;
         };
         function enterDroppable(elem) {
             elem.style.background = 'pink';
