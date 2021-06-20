@@ -32,8 +32,12 @@ let createCardButton = document.querySelector('.create-card');
 
 //              открытие модального окна добавления "товара"
 
+let checkboxDrag = document.getElementById('checkbox-drag');
+console.log(checkboxDrag);
+
 let openCardMenu = () => {
     createMenu.style.display = 'flex';
+    inputCardNumber.focus();
     // set attribute disable to button 'add' by default
     createCardButton.setAttribute('disabled', 'dissabled');
     // event listener by keydown changes
@@ -53,6 +57,7 @@ let openCardMenu = () => {
 let closeCardMenuByButton = () => {
     createMenu.style.display = 'none';
     inputCardNumber.value = '';
+    inputCardNumber.removeAttribute('autofocus');
 };
 
 //              закрытие модального окна добавления нажатием на кнопку `Escape` "
@@ -60,233 +65,77 @@ let closeCardMenuByButton = () => {
 let closeCardMenuByKey = (event) => {
     if (event.key == 'Escape') {
         createMenu.style.display = 'none';
+        inputCardNumber.removeAttribute('autofocus');
     }
 };
 
-let count = 1;
+checkboxDrag.addEventListener('change', () => {
+    console.log(checkboxDrag.checked);
+});
 
-let createCard = () => {
-    // card item
-    let cardItem = document.createElement('div');
-    cardItem.classList.add('cards__item');
-    cardItem.classList.add(`card-${count}`);
-    // card header
-    let cardHeader = document.createElement('div');
-    cardHeader.classList.add('card__header');
-    // card body
-    let cardBody = document.createElement('div');
-    cardBody.classList.add('card__body');
-    // card body id
-    let cardBodyId = document.createElement('div');
-    cardBodyId.classList.add('card__id');
-    cardBodyId.textContent = `ID: ${count}`;
-    // card body date
-    let cardBodyDate = document.createElement('div');
-    cardBodyDate.classList.add('card__date');
-    let currentDate = new Date();
-    let formatedDate =
-        currentDate.getDate() +
-        '-' +
-        (currentDate.getMonth() + 1) +
-        '-' +
-        currentDate.getFullYear();
-    cardBodyDate.innerHTML = `Дата создания: ${formatedDate}`;
-    // card body type
-    let cardBodyType = document.createElement('div');
-    cardBodyType.classList.add('card__type');
-    let selectOptionType = document.getElementById('create-select');
-    cardBodyType.innerHTML = `Тип: ${selectOptionType.value}`;
+let count = localStorage.getItem('count') || 1;
 
-    // card name
-    let cardName = document.createElement('div');
-    cardName.classList.add('card__name');
-    cardName.textContent = inputCardNumber.value;
+let createCard = (
+    selectOptionType,
+    inputCardNumber,
+    formatedDate,
+    id,
+    isInit
+) => {
+    const template = `
+        <div class="cards__item card-${id}">
+            <div class="card__header">
+                <div class="card__name">${inputCardNumber}</div>
+                <div class="card__buttons">
+                    <div class="edit-modal edit-modal-${id}">
+                    <button class="edit-btn"><img src="./icons/edit.png" style="margin-right: 10px;"><span>редактировать</span></button>
+                    <button class="delete-btn delete-btn-${id}"><img src="./icons/close.png" style="margin-right: 10px;"><span>удалить</span></button>
+                    </div>
+                    <button class="drag-btn"><img src="./icons/move.png"></button>
+                    <button class="menu-btn btn-${id}"><img src="./icons/menu.png"></button>
+                </div>
+            </div>
+            <div class="card__body">
+                <div class="card__id">ID: ${id}</div>
+                <div class="card__date">${formatedDate}</div>
+                <div class="card__type">Тип: ${selectOptionType}</div>
+            </div>
+        </div>
+    `;
+    // insert card in html(cards)
+    cards.insertAdjacentHTML('beforeend', template);
 
-    // card buttons
-    let cardButtons = document.createElement('div');
-    cardButtons.classList.add('card__buttons');
-
-    // card buttons -> drag-button
-    let dragBtn = document.createElement('button');
-    dragBtn.classList.add('drag-btn');
-    let dragImg = document.createElement('img');
-    dragImg.src = './icons/move.png';
-    dragBtn.appendChild(dragImg);
-
-    // card buttons -> menu-button
-    let cardMenuBtn = document.createElement('button');
-    cardMenuBtn.classList.add('menu-btn');
-    cardMenuBtn.classList.add(`btn-${count}`);
-    let cardMenuImg = document.createElement('img');
-    cardMenuImg.src = './icons/menu.png';
-    cardMenuBtn.appendChild(cardMenuImg);
-    inputCardNumber.value = '';
-    createMenu.style.display = 'none';
-
-    // create modal
-    let editModal = document.createElement('div');
-    editModal.classList.add('edit-modal');
-    editModal.classList.add(`edit-modal-${count}`);
-
-    // edit button
-    let editButton = document.createElement('button');
-    editButton.classList.add('edit-btn');
-    let editButtonImg = document.createElement('img');
-    editButtonImg.src = './icons/edit.png';
-    editButtonImg.style.marginRight = '10px';
-    let editButtonText = document.createElement('span');
-    editButtonText.textContent = 'редактировать';
-
-    // delete button
-    let deleteButton = document.createElement('button');
-    deleteButton.classList.add('delete-btn');
-    let deleteButtonImg = document.createElement('img');
-    deleteButtonImg.src = './icons/close.png';
-    deleteButtonImg.style.marginRight = '10px';
-    let deleteButtonText = document.createElement('span');
-    deleteButtonText.textContent = 'удалить';
-
-    // formate card buttons
-    editButton.appendChild(editButtonImg);
-    editButton.appendChild(editButtonText);
-    deleteButton.appendChild(deleteButtonImg);
-    deleteButton.appendChild(deleteButtonText);
-    editModal.appendChild(editButton);
-    editModal.appendChild(deleteButton);
-    cardButtons.appendChild(editModal);
-
-    // formating card body
-    cardBody.appendChild(cardBodyId);
-    cardBody.appendChild(cardBodyDate);
-    cardBody.appendChild(cardBodyType);
-    selectOptionType.value = selectOptionType[0];
-
-    // добавление кнопок в 'голову карты'
-    cardButtons.appendChild(dragBtn);
-    cardButtons.appendChild(cardMenuBtn);
-
-    // создание 'головы' карты
-    cardHeader.appendChild(cardName);
-    cardHeader.appendChild(cardButtons);
-
-    // Создание карты
-    cardItem.appendChild(cardHeader);
-    cardItem.appendChild(cardBody);
-
-    // добавление карты в блок cards
-    cards.appendChild(cardItem);
+    // check the statement
+    if (!isInit) {
+        const cardsStorage = localStorage.getItem('cards')
+            ? JSON.parse(localStorage.getItem('cards'))
+            : [];
+        cardsStorage.push({
+            id: id,
+            formatedDate: formatedDate,
+            selectOptionType: selectOptionType,
+            inputCardNumber: inputCardNumber,
+        });
+        localStorage.setItem('cards', JSON.stringify(cardsStorage));
+    }
 
     // open menu to drag/delete
-    cardMenuBtn.addEventListener('click', (event) => {
-        editModal.classList.toggle('edit-modal-flex');
+    document.querySelector(`.btn-${id}`).addEventListener('click', (event) => {
+        document
+            .querySelector(`.edit-modal-${id}`)
+            .classList.toggle('edit-modal-flex');
     });
+
+    // delete button from(menu)
+    document
+        .querySelector(`.delete-btn-${id}`)
+        .addEventListener('click', (event) => {
+            console.log(document.querySelector(`.card-${id}`));
+            document.querySelector(`.card-${id}`).remove();
+        });
 
     // drag card by button
-    let currentDroppable = null;
-    dragBtn.addEventListener('mousedown', (event) => {
-        event.currentTarget.parentNode.parentNode.parentNode.classList.add(
-            'dragging'
-        );
-        dragBtn.style.cursor = 'grab';
-        let shiftX = event.clientX - cardItem.getBoundingClientRect().left;
-        let shiftY = event.clientY - cardItem.getBoundingClientRect().top;
-        cardItem.style.position = 'absolute';
-        cardItem.style.zIndex = 1000;
-        cards.append(cardItem);
-        moveAt(event.pageX, event.pageY);
-        function moveAt(pageX, pageY) {
-            cardItem.style.left = pageX - shiftX + 'px';
-            cardItem.style.top = pageY - shiftY + 'px';
-        }
-        function onMouseMove(event) {
-            moveAt(event.pageX, event.pageY);
-            cardItem.hidden = true;
-            let elemBelow = document.elementFromPoint(
-                event.clientX,
-                event.clientY
-            );
-            cardItem.hidden = false;
-            if (!elemBelow) return;
-            let droppableBelow = elemBelow.closest('.droppable');
-            if (currentDroppable != droppableBelow) {
-                if (currentDroppable) {
-                    // null when we were not over a droppable before this event
-                    leaveDroppable(currentDroppable);
-                }
-                currentDroppable = droppableBelow;
-                if (currentDroppable) {
-                    // null if we're not coming over a droppable now
-                    enterDroppable(currentDroppable);
-                }
-            }
-        }
-        document.addEventListener('mousemove', onMouseMove);
-        cardItem.onmouseup = function (event) {
-            document.removeEventListener('mousemove', onMouseMove);
-            event.currentTarget.classList.remove('dragging');
-            cardItem.onmouseup = null;
-            cardItem.style.position = null;
-        };
-        function enterDroppable(elem) {
-            elem.style.background = 'pink';
-        }
-        function leaveDroppable(elem) {
-            elem.style.background = '';
-        }
-        cardItem.ondragstart = function () {
-            return false;
-        };
-    });
-
-    // TODO: mb fix to vertical and horizontal
-    // let draggables = document.querySelectorAll('.draggable');
-    // draggables.forEach((draggable) => {
-    //     draggable.addEventListener('dragstart', () => {
-    //         draggable.classList.add('dragging');
-    //     });
-
-    //     draggable.addEventListener('dragend', () => {
-    //         draggable.classList.remove('dragging');
-    //     });
-    // });
-
-    // cards.addEventListener('dragover', (e) => {
-    //     e.preventDefault();
-    //     const afterElement = getDragAfterElement(cards, e.clientY);
-    //     const draggable = document.querySelector('.dragging');
-    //     if (afterElement == null) {
-    //         cards.appendChild(draggable);
-    //     } else {
-    //         cards.insertBefore(draggable, afterElement);
-    //     }
-    // });
-
-    // function getDragAfterElement(cards, y) {
-    //     const draggableElements = [
-    //         ...cards.querySelectorAll('.draggable:not(.dragging)'),
-    //     ];
-
-    //     return draggableElements.reduce(
-    //         (closest, child) => {
-    //             const box = child.getBoundingClientRect();
-    //             const offset = y - box.top - box.height / 2;
-    //             if (offset < 0 && offset > closest.offset) {
-    //                 return { offset: offset, element: child };
-    //             } else {
-    //                 return closest;
-    //             }
-    //         },
-    //         { offset: Number.NEGATIVE_INFINITY }
-    //     ).element;
-    // }
-    // delete card by button
-    deleteButton.addEventListener('click', (event) => {
-        console.log(
-            event.currentTarget.parentNode.parentNode.parentNode.parentNode
-        );
-        event.currentTarget.parentNode.parentNode.parentNode.parentNode.remove();
-    });
-    count += 1;
+    return;
 };
 
 // open modal (нажатие на кнопку + добавить)
@@ -295,8 +144,58 @@ openCardButton.addEventListener('click', openCardMenu);
 closeModalButton.addEventListener('click', closeCardMenuByButton);
 // closs by ESC
 window.addEventListener('keydown', closeCardMenuByKey);
-// create card
-createCardButton.addEventListener('click', createCard);
+
+// create card by click on (createCardButton)
+createCardButton.addEventListener('click', () => {
+    const inputCardNumber = document.querySelector('#card-number').value;
+    const selectOptionType = document.querySelector('#create-select').value;
+    const currentDate = new Date();
+    const formatedDate =
+        currentDate.getDate() +
+        '-' +
+        (currentDate.getMonth() + 1) +
+        '-' +
+        currentDate.getFullYear();
+    createCard(selectOptionType, inputCardNumber, formatedDate, count);
+    count++;
+    localStorage.setItem('count', count);
+    createMenu.style.display = 'none';
+    document.querySelector('#card-number').value = '';
+});
+
+// create card by button(Enter)
+createMenu.addEventListener('keydown', (event) => {
+    if (event.key == 'Enter') {
+        const inputCardNumber = document.querySelector('#card-number').value;
+        const selectOptionType = document.querySelector('#create-select').value;
+        const currentDate = new Date();
+        const formatedDate =
+            currentDate.getDate() +
+            '-' +
+            (currentDate.getMonth() + 1) +
+            '-' +
+            currentDate.getFullYear();
+        createCard(selectOptionType, inputCardNumber, formatedDate, count);
+        count++;
+        localStorage.setItem('count', count);
+        createMenu.style.display = 'none';
+        document.querySelector('#card-number').value = '';
+    }
+});
+
+function initCards() {
+    const cards = JSON.parse(localStorage.getItem('cards'));
+    for (let card of cards) {
+        createCard(
+            card.selectOptionType,
+            card.inputCardNumber,
+            card.formatedDate,
+            card.id,
+            true
+        );
+    }
+}
+initCards();
 //
 // TODO: fix cards
 // TODO: localstorage
