@@ -1,11 +1,14 @@
 body {
-    margin: 0;
+    font-family: 'Roboto', sans-serif;
     font-size: 16px;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-
-    font-family: 'Roboto', sans-serif;
+    margin: 0;
+}
+html,
+body {
+    height: 100%;
 }
 h1,
 h2,
@@ -98,6 +101,9 @@ form {
 /* header */
 
 /* main */
+main {
+    flex-grow: 1;
+}
 
 /* card create */
 .card__create {
@@ -255,8 +261,7 @@ form {
         rgba(6, 77, 142, 0.447917) 102.03%,
         rgba(1, 0, 60, 0) 102.73%
     );
-
-    height: 110px;
+    padding: 80px 0;
     width: 100%;
 }
 /* footer */
