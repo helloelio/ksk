@@ -314,6 +314,45 @@ form {
     color: white;
     cursor: pointer;
 }
+/* modal */
+
+/* change modal */
+.change-modal {
+    position: fixed;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 2000;
+}
+.change-modal__content {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    background-color: white;
+    border-radius: 2px;
+    padding: 15px;
+}
+.change-modal__title {
+    text-align: center;
+    padding: 25px 0 20px 0;
+}
+.change-modal-flex {
+    display: flex;
+}
+.change-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 2.5em;
+    color: white;
+    cursor: pointer;
+}
+/* change modal */
 
 @media only screen and (max-width: 768px) {
     .header {
