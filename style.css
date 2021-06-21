@@ -183,6 +183,7 @@ main {
 }
 .ui-sortable-helper {
     border: 2px solid #0060df;
+    transition: 0.01s ease;
 }
 .card__header {
     position: relative;
@@ -350,6 +351,18 @@ main {
 }
 .edit-modal-flex {
     display: flex;
+}
+.edit-card {
+    font-size: 1.2em;
+    border: 2px solid #0060df;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 0 auto;
+    transition: 0.3s ease;
+}
+.edit-card:hover {
+    background-color: #0060df;
+    color: white;
 }
 .change-close {
     position: absolute;
