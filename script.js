@@ -8,6 +8,8 @@ let cards = document.querySelector('.cards'); //? блок с карточкам
 let inputCardNumber = document.getElementById('card-number'); //? строка ввода данных в модальном окне добавления
 let createCardButton = document.querySelector('.create-card'); //? кнопка 'добавить' в модальном окне добавления
 let checkboxDragInput = document.getElementById('checkbox-drag'); //? чекбокс 'enable drag and drop'
+//
+let checboxToSort = document.querySelector('#sort-select');
 //! открытие модального окна с созданием карточки
 let openCardMenu = () => {
     createCardMenu.style.display = 'flex';
@@ -47,6 +49,62 @@ let closeChangeModalMenuByKey = (event) => {
         editModal.classList.remove('edit-modal-flex');
     }
 };
+checboxToSort.value = checboxToSort[0].value;
+
+//! sort listener
+checboxToSort.addEventListener('change', () => {
+    //! sort by ID: ascending
+    if (checboxToSort.value == 'Sort by ID: ascending') {
+        console.log('ascending ID');
+        const storageArr = [];
+        for (let i = 0; i < count; i++) {
+            storageArr.push(JSON.parse(localStorage.getItem(`cards-${i}`)));
+        }
+        if (storageArr[0][0].id != 0) {
+            storageArr.reverse();
+            for (let w = 0; w < count; w++) {
+                localStorage.removeItem(`cards-${w}`);
+                localStorage.setItem(
+                    `cards-${w}`,
+                    JSON.stringify(storageArr[w])
+                );
+            }
+            window.location.reload();
+        }
+    }
+    //! sort by ID: descending
+    if (checboxToSort.value == 'Sort by ID: descending') {
+        const storageArrReversed = [];
+        for (let k = 0; k < count; k++) {
+            storageArrReversed.push(
+                JSON.parse(localStorage.getItem(`cards-${k}`))
+            );
+        }
+        if (storageArrReversed[0][0].id == 0) {
+            storageArrReversed.reverse();
+            for (let q = 0; q < count; q++) {
+                localStorage.removeItem(`cards-${q}`);
+                localStorage.setItem(
+                    `cards-${q}`,
+                    JSON.stringify(storageArrReversed[q])
+                );
+            }
+            window.location.reload();
+        }
+    }
+    if (checboxToSort.value == 'Sort by Date of creation: ascending') {
+        console.log('Date: ascending ');
+    }
+    if (checboxToSort.value == 'Sort by Date of creation: descending') {
+        console.log('Date: descending');
+    }
+    if (checboxToSort.value == 'Sort by Order Type: ascending') {
+        console.log('Order type: ascending');
+    }
+    if (checboxToSort.value == 'Sort by Order type: descending') {
+        console.log('Order type: descending');
+    }
+});
 
 checkboxDragInput.checked = false; //? set default value "false" to checkbox
 //! Функция проверяющая checkbox и разрешающая перетаскивать карточки
@@ -142,6 +200,7 @@ let createCard = (
 
     //!  drag card by button
     //TODO: drag and drop
+
     return;
 };
 
