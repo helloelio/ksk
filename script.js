@@ -174,24 +174,20 @@ createCardButton.addEventListener('click', () => {
 // create card by button(Enter)
 createMenu.addEventListener('keydown', (event) => {
     if (event.key == 'Enter') {
-        if (inputCardNumber.value == ' ' || null) {
-            const inputCardNumber =
-                document.querySelector('#card-number').value;
-            const selectOptionType =
-                document.querySelector('#create-select').value;
-            const currentDate = new Date();
-            const formatedDate =
-                currentDate.getDate() +
-                '-' +
-                (currentDate.getMonth() + 1) +
-                '-' +
-                currentDate.getFullYear();
-            createCard(selectOptionType, inputCardNumber, formatedDate, count);
-            count++;
-            localStorage.setItem('count', count);
-            createMenu.style.display = 'none';
-            document.querySelector('#card-number').value = '';
-        }
+        const inputCardNumber = document.querySelector('#card-number').value;
+        const selectOptionType = document.querySelector('#create-select').value;
+        const currentDate = new Date();
+        const formatedDate =
+            currentDate.getDate() +
+            '-' +
+            (currentDate.getMonth() + 1) +
+            '-' +
+            currentDate.getFullYear();
+        createCard(selectOptionType, inputCardNumber, formatedDate, count);
+        count++;
+        localStorage.setItem('count', count);
+        createMenu.style.display = 'none';
+        document.querySelector('#card-number').value = '';
     }
 });
 
