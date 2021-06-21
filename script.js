@@ -1,37 +1,28 @@
 //              кнопка *добавить*
-
 const openCardButton = document.querySelector('.add-button');
 
 //              модальное окно(окно добавления)
-
 const createMenu = document.querySelector('.modal');
 
 //              кнопка закрытия модального окна
-
 const closeModalButton = document.querySelector('.close');
 
 //              блок с кнопками карты
-
 const cardMenuBtns = document.querySelectorAll('.menu-btn');
 
 //              окно редактирования для карточки
-
 const editMenus = document.querySelectorAll('.edit-modal');
 
 //              блок с карточками
-
 let cards = document.querySelector('.cards');
 
 //              строка ввода данных в модальном окне добавления
-
 let inputCardNumber = document.getElementById('card-number');
 
 //              кнопка 'добавить' в модальном окне добавления
-
 let createCardButton = document.querySelector('.create-card');
 
 //              открытие модального окна добавления "товара"
-
 let checkboxDrag = document.getElementById('checkbox-drag');
 console.log(checkboxDrag);
 
@@ -54,7 +45,6 @@ let openCardMenu = () => {
 };
 
 //              закрытие модального окна добавления нажатием на "крестик x"
-
 let closeCardMenuByButton = () => {
     createMenu.style.display = 'none';
     inputCardNumber.value = '';
@@ -62,16 +52,23 @@ let closeCardMenuByButton = () => {
 };
 
 //              закрытие модального окна добавления нажатием на кнопку `Escape` "
-
 let closeCardMenuByKey = (event) => {
     if (event.key == 'Escape') {
         createMenu.style.display = 'none';
         inputCardNumber.removeAttribute('autofocus');
     }
 };
-
+checkboxDrag.checked = false;
+console.log(checkboxDrag.checked);
 checkboxDrag.addEventListener('change', () => {
-    if (checkboxDrag.checked == 'true') {
+    if (checkboxDrag.checked == true) {
+        $(function () {
+            $('.cards').sortable({
+                handle: `.card__header`,
+                cursor: 'move',
+            });
+            $('#sortable').disableSelection();
+        });
     }
 });
 
@@ -142,7 +139,8 @@ let createCard = (
     // drag card by button
     document
         .querySelector(`.drag-btn-${id}`)
-        .addEventListener('mousedown', () => {
+        .addEventListener('mousedown', (event) => {
+            event.preventDefault();
             // TODO: fix this(drag function)
         });
     return;
@@ -176,20 +174,24 @@ createCardButton.addEventListener('click', () => {
 // create card by button(Enter)
 createMenu.addEventListener('keydown', (event) => {
     if (event.key == 'Enter') {
-        const inputCardNumber = document.querySelector('#card-number').value;
-        const selectOptionType = document.querySelector('#create-select').value;
-        const currentDate = new Date();
-        const formatedDate =
-            currentDate.getDate() +
-            '-' +
-            (currentDate.getMonth() + 1) +
-            '-' +
-            currentDate.getFullYear();
-        createCard(selectOptionType, inputCardNumber, formatedDate, count);
-        count++;
-        localStorage.setItem('count', count);
-        createMenu.style.display = 'none';
-        document.querySelector('#card-number').value = '';
+        if (inputCardNumber.value == ' ' || null) {
+            const inputCardNumber =
+                document.querySelector('#card-number').value;
+            const selectOptionType =
+                document.querySelector('#create-select').value;
+            const currentDate = new Date();
+            const formatedDate =
+                currentDate.getDate() +
+                '-' +
+                (currentDate.getMonth() + 1) +
+                '-' +
+                currentDate.getFullYear();
+            createCard(selectOptionType, inputCardNumber, formatedDate, count);
+            count++;
+            localStorage.setItem('count', count);
+            createMenu.style.display = 'none';
+            document.querySelector('#card-number').value = '';
+        }
     }
 });
 
