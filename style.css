@@ -130,6 +130,7 @@ form {
     box-shadow: 0px 4px 4px #ebebeb;
 }
 .form__title {
+    font-size: 1.1em;
     display: block;
     margin-top: 10px;
     padding: 0 30px;
@@ -166,7 +167,13 @@ form {
     height: 300px;
     width: 377px;
 }
+.drag-btn {
+    cursor: default;
+}
 .dragging {
+    border: 2px solid #0060df;
+}
+.ui-sortable-helper {
     border: 2px solid #0060df;
 }
 .card__header {
@@ -306,4 +313,36 @@ form {
     font-size: 2.5em;
     color: white;
     cursor: pointer;
+}
+
+@media only screen and (max-width: 768px) {
+    .header {
+        text-align: center;
+    }
+    .header__title {
+        margin: 0;
+    }
+    .container {
+        flex-direction: column;
+        justify-content: center;
+        padding: 10px;
+    }
+    .card__sort {
+        flex-direction: column;
+    }
+    .cards {
+        grid-template-columns: 1fr;
+    }
+    .right-side {
+        margin: 0;
+    }
+    .cards__item {
+        width: 300px;
+    }
+    .card__create {
+        max-width: 100%;
+    }
+    .card__filter {
+        max-width: 100%;
+    }
 }
