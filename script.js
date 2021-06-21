@@ -51,14 +51,18 @@ let closeChangeModalMenuByKey = (event) => {
 checkboxDragInput.checked = false; //? set default value "false" to checkbox
 //! Функция проверяющая checkbox и разрешающая перетаскивать карточки
 checkboxDragInput.addEventListener('change', () => {
+    console.log(checkboxDragInput.checked);
+
     if (checkboxDragInput.checked == true) {
         $(function () {
             $('.cards').sortable({
                 handle: `.card__header`,
                 cursor: 'move',
+                forcePlaceholderSize: true,
             });
-            $('#sortable').disableSelection();
         });
+    } else {
+        $('.cards').sortable('disable');
     }
 });
 
@@ -125,9 +129,6 @@ let createCard = (
             console.log(document.querySelector(`.card-${id}`));
             document.querySelector(`.card-${id}`).remove();
             localStorage.removeItem(`cards-${id}`);
-            // let arr = JSON.parse(localStorage.getItem(`cards-${id}`)) ?? {};
-            //  delete arr[id];
-            //  localStorage.setItem(`cards-${id}`, JSON.stringify(arr));
         });
 
     //!  edit card by button from(menu)
@@ -135,7 +136,7 @@ let createCard = (
         document
             .querySelector(`.card-buttons-menu-${id}`)
             .classList.remove('card-buttons-menu-flex');
-        document.querySelector('#change-card-number').value = inputCardNumber;
+        document.querySelector('#edit-card-number').value = inputCardNumber;
         editModal.classList.add('edit-modal-flex');
     });
 
@@ -199,7 +200,8 @@ window.addEventListener('keydown', closeChangeModalMenuByKey);
 //! init cards from localStorage to html -> cards
 function initCards() {
     let cards = [];
-    for (let i = 0; i <= 10; i++) {
+
+    for (let i = 0; i < count; i++) {
         cards.push(JSON.parse(localStorage.getItem(`cards-${i}`)));
     }
     for (let card of cards) {
