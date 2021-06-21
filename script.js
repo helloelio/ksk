@@ -1,15 +1,13 @@
 const openModalCardButton = document.querySelector('.add-button'); //? кнопка *добавить*
 const createCardMenu = document.querySelector('.modal'); //? модальное окно(окно добавления)
 const closeCreateCardMenuButton = document.querySelector('.close'); //? кнопка закрытия модального окна
-const changeModal = document.querySelector('.change-modal'); //? модальное окно для редактирования карточек
+const editModal = document.querySelector('.edit-modal'); //? модальное окно для редактирования карточек
 const closeEditModalButton = document.querySelector('.change-close'); //? кнопка для закрытия модального окна редактирования
 const cardMenuButtons = document.querySelectorAll('.menu-btn'); //? блок с кнопками карты
-const editMenu = document.querySelectorAll('.edit-modal'); //? окно редактирования для карточки
 let cards = document.querySelector('.cards'); //? блок с карточками
 let inputCardNumber = document.getElementById('card-number'); //? строка ввода данных в модальном окне добавления
 let createCardButton = document.querySelector('.create-card'); //? кнопка 'добавить' в модальном окне добавления
 let checkboxDragInput = document.getElementById('checkbox-drag'); //? чекбокс 'enable drag and drop'
-
 //! открытие модального окна с созданием карточки
 let openCardMenu = () => {
     createCardMenu.style.display = 'flex';
@@ -40,13 +38,13 @@ let closeCardMenuByKey = (event) => {
 };
 //!
 let closeChangeModalMenuByButton = () => {
-    changeModal.classList.remove('change-modal-flex');
+    editModal.classList.remove('edit-modal-flex');
 };
 
 //! Закрытие окна редактирование клавишей "ESC"
 let closeChangeModalMenuByKey = (event) => {
     if (event.key == 'Escape') {
-        changeModal.classList.remove('change-modal-flex');
+        editModal.classList.remove('edit-modal-flex');
     }
 };
 
@@ -80,7 +78,7 @@ let createCard = (
             <div class="card__header">
                 <div class="card__name">${inputCardNumber}</div>
                 <div class="card__buttons">
-                    <div class="edit-modal edit-modal-${id}">
+                    <div class="card-buttons-menu card-buttons-menu-${id}">
                     <button class="edit-btn edit-btn-${id}"><img src="./icons/edit.png" style="margin-right: 10px;"><span>редактировать</span></button>
                     <button class="delete-btn delete-btn-${id}"><img src="./icons/close.png" style="margin-right: 10px;"><span>удалить</span></button>
                     </div>
@@ -116,8 +114,8 @@ let createCard = (
     //!  open menu to edit/delete
     document.querySelector(`.btn-${id}`).addEventListener('click', (event) => {
         document
-            .querySelector(`.edit-modal-${id}`)
-            .classList.toggle('edit-modal-flex');
+            .querySelector(`.card-buttons-menu-${id}`)
+            .classList.toggle('card-buttons-menu-flex');
     });
 
     //!  delete card by button from(menu)
@@ -135,10 +133,10 @@ let createCard = (
     //!  edit card by button from(menu)
     document.querySelector(`.edit-btn-${id}`).addEventListener('click', () => {
         document
-            .querySelector(`.edit-modal-${id}`)
-            .classList.remove('edit-modal-flex');
+            .querySelector(`.card-buttons-menu-${id}`)
+            .classList.remove('card-buttons-menu-flex');
         document.querySelector('#change-card-number').value = inputCardNumber;
-        changeModal.classList.add('change-modal-flex');
+        editModal.classList.add('edit-modal-flex');
     });
 
     //!  drag card by button
