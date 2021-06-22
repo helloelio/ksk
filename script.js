@@ -54,43 +54,17 @@ checboxToSort.value = checboxToSort[0].value;
 //! sort listener
 checboxToSort.addEventListener('change', () => {
     //! sort by ID: ascending
-    if (checboxToSort.value == 'Sort by ID: ascending') {
-        console.log('ascending ID');
+    if (checboxToSort.value == 'Sort by ID: ascending / descending') {
         const storageArr = [];
         for (let i = 0; i < count; i++) {
             storageArr.push(JSON.parse(localStorage.getItem(`cards-${i}`)));
         }
-        if (storageArr[0][0].id != 0) {
-            storageArr.reverse();
-            for (let w = 0; w < count; w++) {
-                localStorage.removeItem(`cards-${w}`);
-                localStorage.setItem(
-                    `cards-${w}`,
-                    JSON.stringify(storageArr[w])
-                );
-            }
-            window.location.reload();
+        storageArr.reverse();
+        for (let w = 0; w < count; w++) {
+            localStorage.removeItem(`cards-${w}`);
+            localStorage.setItem(`cards-${w}`, JSON.stringify(storageArr[w]));
         }
-    }
-    //! sort by ID: descending
-    if (checboxToSort.value == 'Sort by ID: descending') {
-        const storageArrReversed = [];
-        for (let k = 0; k < count; k++) {
-            storageArrReversed.push(
-                JSON.parse(localStorage.getItem(`cards-${k}`))
-            );
-        }
-        if (storageArrReversed[0][0].id == 0) {
-            storageArrReversed.reverse();
-            for (let q = 0; q < count; q++) {
-                localStorage.removeItem(`cards-${q}`);
-                localStorage.setItem(
-                    `cards-${q}`,
-                    JSON.stringify(storageArrReversed[q])
-                );
-            }
-            window.location.reload();
-        }
+        window.location.reload();
     }
     if (checboxToSort.value == 'Sort by Date of creation: ascending') {
         console.log('Date: ascending ');
@@ -109,8 +83,6 @@ checboxToSort.addEventListener('change', () => {
 checkboxDragInput.checked = false; //? set default value "false" to checkbox
 //! Функция проверяющая checkbox и разрешающая перетаскивать карточки
 checkboxDragInput.addEventListener('change', () => {
-    console.log(checkboxDragInput.checked);
-
     if (checkboxDragInput.checked == true) {
         $(function () {
             $('.cards').sortable({
@@ -163,7 +135,6 @@ let createCard = (
         const cardsStorage = localStorage.getItem(`cards-${id}`)
             ? JSON.parse(localStorage.getItem(`cards-${id}`))
             : [];
-        console.log(cardsStorage);
         cardsStorage.push({
             id: id,
             formatedDate: formatedDate,
@@ -184,7 +155,6 @@ let createCard = (
     document
         .querySelector(`.delete-btn-${id}`)
         .addEventListener('click', (event) => {
-            console.log(document.querySelector(`.card-${id}`));
             document.querySelector(`.card-${id}`).remove();
             localStorage.removeItem(`cards-${id}`);
         });
@@ -197,6 +167,13 @@ let createCard = (
         document.querySelector('#edit-card-number').value = inputCardNumber;
         document.querySelector('#edit-select').value = selectOptionType;
         editModal.classList.add('edit-modal-flex');
+        let arr = [];
+        console.log(localStorage.getItem(`cards-${inputCardNumber - 1}`));
+        arr.push(
+            JSON.parse(localStorage.getItem(`cards-${inputCardNumber - 1}`))
+        );
+        console.log(arr[0]);
+        localStorage.removeItem(`cards-${inputCardNumber - 1}`);
     });
 
     //!  drag card by button
