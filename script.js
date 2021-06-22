@@ -75,6 +75,7 @@ checboxToSort.addEventListener('change', () => {
         for (let i = 0; i < count; i++) {
             storageArr.push(JSON.parse(localStorage.getItem(`cards-${i}`)));
         }
+        console.log(storageArr);
         storageArr.sort((a, b) => {
             if (a.id < b.id) {
                 return 1;
