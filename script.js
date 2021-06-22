@@ -50,33 +50,115 @@ let closeChangeModalMenuByKey = (event) => {
     }
 };
 checboxToSort.value = checboxToSort[0].value;
-
 //! sort listener
 checboxToSort.addEventListener('change', () => {
     //! sort by ID: ascending
-    if (checboxToSort.value == 'Sort by ID: ascending / descending') {
+    if (checboxToSort.value == 'Sort by ID: ascending') {
         const storageArr = [];
         for (let i = 0; i < count; i++) {
             storageArr.push(JSON.parse(localStorage.getItem(`cards-${i}`)));
         }
-        storageArr.reverse();
+        storageArr.sort((a, b) => {
+            if (a.id > b.id) {
+                return 1;
+            }
+        });
         for (let w = 0; w < count; w++) {
             localStorage.removeItem(`cards-${w}`);
             localStorage.setItem(`cards-${w}`, JSON.stringify(storageArr[w]));
         }
         window.location.reload();
     }
+    //! sort by ID: descending
+    if (checboxToSort.value == 'Sort by ID: descending') {
+        const storageArr = [];
+        for (let i = 0; i < count; i++) {
+            storageArr.push(JSON.parse(localStorage.getItem(`cards-${i}`)));
+        }
+        storageArr.sort((a, b) => {
+            if (a.id < b.id) {
+                return 1;
+            }
+        });
+        for (let w = 0; w < count; w++) {
+            localStorage.removeItem(`cards-${w}`);
+            localStorage.setItem(`cards-${w}`, JSON.stringify(storageArr[w]));
+        }
+        window.location.reload();
+    }
+    //! sort by DATE: ascending
     if (checboxToSort.value == 'Sort by Date of creation: ascending') {
         console.log('Date: ascending ');
+        const storageArr = [];
+        for (let i = 0; i < count; i++) {
+            storageArr.push(JSON.parse(localStorage.getItem(`cards-${i}`)));
+        }
+        storageArr.sort((a, b) => {
+            if (a.formatedDate > b.formatedDate) {
+                return 1;
+            }
+        });
+        for (let w = 0; w < count; w++) {
+            localStorage.removeItem(`cards-${w}`);
+            localStorage.setItem(`cards-${w}`, JSON.stringify(storageArr[w]));
+        }
+        window.location.reload();
     }
+    //! sort by DATE: descending
     if (checboxToSort.value == 'Sort by Date of creation: descending') {
         console.log('Date: descending');
+        const storageArr = [];
+        for (let i = 0; i < count; i++) {
+            storageArr.push(JSON.parse(localStorage.getItem(`cards-${i}`)));
+        }
+        storageArr.sort((a, b) => {
+            if (a.formatedDate < b.formatedDate) {
+                return 1;
+            }
+        });
+        for (let w = 0; w < count; w++) {
+            localStorage.removeItem(`cards-${w}`);
+            localStorage.setItem(`cards-${w}`, JSON.stringify(storageArr[w]));
+        }
+        window.location.reload();
     }
+    //! sort by ORDER TYPE: ascending
     if (checboxToSort.value == 'Sort by Order Type: ascending') {
         console.log('Order type: ascending');
+        const storageArr = [];
+        for (let i = 0; i < count; i++) {
+            storageArr.push(JSON.parse(localStorage.getItem(`cards-${i}`)));
+        }
+        storageArr.sort((a, b) => {
+            if (a.selectOptionType > b.selectOptionType) {
+                return 1;
+            }
+        });
+        console.log(storageArr);
+        for (let w = 0; w < count; w++) {
+            localStorage.removeItem(`cards-${w}`);
+            localStorage.setItem(`cards-${w}`, JSON.stringify(storageArr[w]));
+        }
+        window.location.reload();
     }
+    //! sort by ORDER TYPE: descending
     if (checboxToSort.value == 'Sort by Order type: descending') {
         console.log('Order type: descending');
+        const storageArr = [];
+        for (let i = 0; i < count; i++) {
+            storageArr.push(JSON.parse(localStorage.getItem(`cards-${i}`)));
+        }
+        storageArr.sort((a, b) => {
+            if (a.selectOptionType < b.selectOptionType) {
+                return 1;
+            }
+        });
+        console.log(storageArr);
+        for (let w = 0; w < count; w++) {
+            localStorage.removeItem(`cards-${w}`);
+            localStorage.setItem(`cards-${w}`, JSON.stringify(storageArr[w]));
+        }
+        window.location.reload();
     }
 });
 
@@ -132,15 +214,18 @@ let createCard = (
 
     //!  check the statement(localStorage)
     if (!isInit) {
-        const cardsStorage = localStorage.getItem(`cards-${id}`)
+        let cardsStorage = localStorage.getItem(`cards-${id}`)
             ? JSON.parse(localStorage.getItem(`cards-${id}`))
             : [];
-        cardsStorage.push({
+        console.log(cardsStorage);
+        cardsStorage = {
             id: id,
             formatedDate: formatedDate,
             selectOptionType: selectOptionType,
             inputCardNumber: inputCardNumber,
-        });
+        };
+        console.log(cardsStorage);
+
         localStorage.setItem(`cards-${id}`, JSON.stringify(cardsStorage));
     }
 
@@ -246,10 +331,10 @@ function initCards() {
             continue;
         }
         createCard(
-            card[0].selectOptionType,
-            card[0].inputCardNumber,
-            card[0].formatedDate,
-            card[0].id,
+            card.selectOptionType,
+            card.inputCardNumber,
+            card.formatedDate,
+            card.id,
             true
         );
     }
