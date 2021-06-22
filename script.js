@@ -195,6 +195,7 @@ let createCard = (
             .querySelector(`.card-buttons-menu-${id}`)
             .classList.remove('card-buttons-menu-flex');
         document.querySelector('#edit-card-number').value = inputCardNumber;
+        document.querySelector('#edit-select').value = selectOptionType;
         editModal.classList.add('edit-modal-flex');
     });
 
@@ -234,7 +235,7 @@ createCardMenu.addEventListener('keydown', (event) => {
             (currentDate.getMonth() + 1) +
             '-' +
             currentDate.getFullYear();
-        createCard(selectOptionType, inputCardNumber, formatedDate, count);
+        createCard(selectOptionType, inputCardNumber, formatedDate, +count);
         count++;
         localStorage.setItem('count', count);
         createCardMenu.style.display = 'none';
