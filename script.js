@@ -9,6 +9,134 @@ let inputCardNumber = document.getElementById('card-number'); //? строка �
 let createCardButton = document.querySelector('.create-card'); //? кнопка 'добавить' в модальном окне добавления
 let checkboxDragInput = document.getElementById('checkbox-drag'); //? чекбокс 'enable drag and drop'
 let checboxToSort = document.querySelector('#sort-select'); //? чекбокс 'Sorting'
+//! Счетчик
+let count = localStorage.getItem('count') || 0;
+
+//! Функция создания карточки
+let createCard = (
+    selectOptionType,
+    inputCardNumber,
+    formatedDate,
+    id,
+    isInit
+) => {
+    const template = `
+        <div class="cards__item card-${id}">
+            <div class="card__header">
+                <div class="card__name">${inputCardNumber}</div>
+                <div class="card__buttons">
+                    <div class="card-buttons-menu card-buttons-menu-${id}">
+                    <button class="edit-btn edit-btn-${id}"><img src="./icons/edit.png" style="margin-right: 10px;"><span>редактировать</span></button>
+                    <button class="delete-btn delete-btn-${id}"><img src="./icons/close.png" style="margin-right: 10px;"><span>удалить</span></button>
+                    </div>
+                    <button class="drag-btn drag-btn-${id}"><img src="./icons/move.png"></button>
+                    <button class="menu-btn btn-${id}"><img src="./icons/menu.png"></button>
+                </div>
+            </div>
+            <div class="card__body">
+                <div class="card__id">ID: ${id}</div>
+                <div class="card__date">${formatedDate}</div>
+                <div class="card__type">Тип: ${selectOptionType}</div>
+            </div>
+        </div>
+    `;
+    //!  insert card in html(cards)
+    cards.insertAdjacentHTML('beforeend', template);
+
+    //!  check the statement(localStorage)
+    if (!isInit) {
+        let cardsStorage = localStorage.getItem(`cards-${id}`)
+            ? JSON.parse(localStorage.getItem(`cards-${id}`))
+            : [];
+        cardsStorage = {
+            id: id,
+            formatedDate: formatedDate,
+            selectOptionType: selectOptionType,
+            inputCardNumber: inputCardNumber,
+        };
+        localStorage.setItem(`cards-${id}`, JSON.stringify(cardsStorage));
+    }
+
+    //!  open menu to edit/delete
+    document.querySelector(`.btn-${id}`).addEventListener('click', (event) => {
+        document
+            .querySelector(`.card-buttons-menu-${id}`)
+            .classList.toggle('card-buttons-menu-flex');
+    });
+
+    //!  delete card by button from(menu)
+    document
+        .querySelector(`.delete-btn-${id}`)
+        .addEventListener('click', (event) => {
+            document.querySelector(`.card-${id}`).remove();
+            localStorage.removeItem(`cards-${id}`);
+            window.location.reload();
+        });
+
+    //!  edit card by button from(menu)
+    document.querySelector(`.edit-btn-${id}`).addEventListener('click', () => {
+        document
+            .querySelector(`.card-buttons-menu-${id}`)
+            .classList.remove('card-buttons-menu-flex');
+        document.querySelector('#edit-card-number').value = inputCardNumber;
+        document.querySelector('#edit-select').value = selectOptionType;
+        editModal.classList.add('edit-modal-flex');
+        let arr = [];
+        console.log(localStorage.getItem(`cards-${id}`));
+        arr.push(JSON.parse(localStorage.getItem(`cards-${id}`)));
+        document.querySelector('.edit-card').addEventListener('click', () => {
+            arr[0].inputCardNumber =
+                document.querySelector('#edit-card-number').value;
+            arr[0].selectOptionType =
+                document.querySelector('#edit-select').value;
+            localStorage.setItem(`cards-${id}`, JSON.stringify(arr[0]));
+            window.location.reload();
+        });
+    });
+
+    //!  drag card by button
+    //TODO: drag and drop
+
+    return;
+};
+//!  create card by click on (createCardButton)
+createCardButton.addEventListener('click', () => {
+    const inputCardNumber = document.querySelector('#card-number').value;
+    const selectOptionType = document.querySelector('#create-select').value;
+    const currentDate = new Date();
+    const formatedDate =
+        currentDate.getDate() +
+        '-' +
+        (currentDate.getMonth() + 1) +
+        '-' +
+        currentDate.getFullYear();
+    createCard(selectOptionType, inputCardNumber, formatedDate, count);
+    count++;
+    localStorage.setItem('count', count);
+    createCardMenu.style.display = 'none';
+    document.querySelector('#card-number').value = '';
+});
+
+//!  create card by button(Enter)
+createCardMenu.addEventListener('keydown', (event) => {
+    if (event.key == 'Enter') {
+        const inputCardNumber = document.querySelector('#card-number').value;
+        const selectOptionType = document.querySelector('#create-select').value;
+        const currentDate = new Date();
+        const formatedDate =
+            currentDate.getDate() +
+            '-' +
+            (currentDate.getMonth() + 1) +
+            '-' +
+            currentDate.getFullYear();
+        createCard(selectOptionType, inputCardNumber, formatedDate, +count);
+        count++;
+        localStorage.setItem('count', count);
+        createCardMenu.style.display = 'none';
+        document.querySelector('#card-number').value = '';
+    }
+});
+
 //! открытие модального окна с созданием карточки
 let openCardMenu = () => {
     createCardMenu.style.display = 'flex';
@@ -178,152 +306,35 @@ checkboxDragInput.addEventListener('change', () => {
     }
 });
 
-//! Счетчик
-let count = localStorage.getItem('count') || 0;
-
-//! Функция создания карточки
-let createCard = (
-    selectOptionType,
-    inputCardNumber,
-    formatedDate,
-    id,
-    isInit
-) => {
-    const template = `
-        <div class="cards__item card-${id}">
-            <div class="card__header">
-                <div class="card__name">${inputCardNumber}</div>
-                <div class="card__buttons">
-                    <div class="card-buttons-menu card-buttons-menu-${id}">
-                    <button class="edit-btn edit-btn-${id}"><img src="./icons/edit.png" style="margin-right: 10px;"><span>редактировать</span></button>
-                    <button class="delete-btn delete-btn-${id}"><img src="./icons/close.png" style="margin-right: 10px;"><span>удалить</span></button>
-                    </div>
-                    <button class="drag-btn drag-btn-${id}"><img src="./icons/move.png"></button>
-                    <button class="menu-btn btn-${id}"><img src="./icons/menu.png"></button>
-                </div>
-            </div>
-            <div class="card__body">
-                <div class="card__id">ID: ${id}</div>
-                <div class="card__date">${formatedDate}</div>
-                <div class="card__type">Тип: ${selectOptionType}</div>
-            </div>
-        </div>
-    `;
-    //!  insert card in html(cards)
-    cards.insertAdjacentHTML('beforeend', template);
-
-    //!  check the statement(localStorage)
-    if (!isInit) {
-        let cardsStorage = localStorage.getItem(`cards-${id}`)
-            ? JSON.parse(localStorage.getItem(`cards-${id}`))
-            : [];
-        console.log(cardsStorage);
-        cardsStorage = {
-            id: id,
-            formatedDate: formatedDate,
-            selectOptionType: selectOptionType,
-            inputCardNumber: inputCardNumber,
-        };
-        console.log(cardsStorage);
-
-        localStorage.setItem(`cards-${id}`, JSON.stringify(cardsStorage));
-    }
-
-    //!  open menu to edit/delete
-    document.querySelector(`.btn-${id}`).addEventListener('click', (event) => {
-        document
-            .querySelector(`.card-buttons-menu-${id}`)
-            .classList.toggle('card-buttons-menu-flex');
-    });
-
-    //!  delete card by button from(menu)
-    document
-        .querySelector(`.delete-btn-${id}`)
-        .addEventListener('click', (event) => {
-            document.querySelector(`.card-${id}`).remove();
-            localStorage.removeItem(`cards-${id}`);
-            window.location.reload();
-        });
-
-    //!  edit card by button from(menu)
-    //TODO: fix edit fucntion
-    document.querySelector(`.edit-btn-${id}`).addEventListener('click', () => {
-        document
-            .querySelector(`.card-buttons-menu-${id}`)
-            .classList.remove('card-buttons-menu-flex');
-        document.querySelector('#edit-card-number').value = inputCardNumber;
-        document.querySelector('#edit-select').value = selectOptionType;
-        editModal.classList.add('edit-modal-flex');
-        let arr = [];
-        console.log(localStorage.getItem(`cards-${id}`));
-        arr.push(JSON.parse(localStorage.getItem(`cards-${id}`)));
-        document.querySelector('.edit-card').addEventListener('click', () => {
-            arr[0].inputCardNumber =
-                document.querySelector('#edit-card-number').value;
-            arr[0].selectOptionType =
-                document.querySelector('#edit-select').value;
-            localStorage.setItem(`cards-${id}`, JSON.stringify(arr[0]));
-            window.location.reload();
-        });
-    });
-
-    //!  drag card by button
-    //TODO: drag and drop
-
-    return;
-};
-
-//!  create card by click on (createCardButton)
-createCardButton.addEventListener('click', () => {
-    const inputCardNumber = document.querySelector('#card-number').value;
-    const selectOptionType = document.querySelector('#create-select').value;
-    const currentDate = new Date();
-    const formatedDate =
-        currentDate.getDate() +
-        '-' +
-        (currentDate.getMonth() + 1) +
-        '-' +
-        currentDate.getFullYear();
-    createCard(selectOptionType, inputCardNumber, formatedDate, count);
-    count++;
-    localStorage.setItem('count', count);
-    createCardMenu.style.display = 'none';
-    document.querySelector('#card-number').value = '';
-});
-
-//!  create card by button(Enter)
-createCardMenu.addEventListener('keydown', (event) => {
-    if (event.key == 'Enter') {
-        const inputCardNumber = document.querySelector('#card-number').value;
-        const selectOptionType = document.querySelector('#create-select').value;
-        const currentDate = new Date();
-        const formatedDate =
-            currentDate.getDate() +
-            '-' +
-            (currentDate.getMonth() + 1) +
-            '-' +
-            currentDate.getFullYear();
-        createCard(selectOptionType, inputCardNumber, formatedDate, +count);
-        count++;
-        localStorage.setItem('count', count);
-        createCardMenu.style.display = 'none';
-        document.querySelector('#card-number').value = '';
-    }
-});
-
-//! Событие открывания модального окна нажатием на кнопку (+Добавить)
 openModalCardButton.addEventListener('click', openCardMenu);
-//! Событие закрывания модального окна нажатием на кнопку(X)
 closeCreateCardMenuButton.addEventListener(
     'click',
     closeCreateCardMenuByButton
 );
-//! Событие закрывания модального окна нажатием на клавишу(ESC)
 window.addEventListener('keydown', closeCardMenuByKey);
-
-//! Событие открвания окна редактирования карточки
 closeEditModalButton.addEventListener('click', closeChangeModalMenuByButton);
 window.addEventListener('keydown', closeChangeModalMenuByKey);
+
+//TODO: fix filter function
+let searchCard = () => {
+    let filterInvoiceNumber = document
+        .querySelector('#filter-invoice-number')
+        .value.toUpperCase();
+    let cards = document.getElementsByClassName('cards');
+    for (let i = 0; i < cards.length; i++) {
+        let cardsId = cards[i].querySelectorAll(
+            '.cards__item .card__header .card__name'
+        );
+        cardsId.forEach((a) => {
+            console.log(a);
+            if (a.innerText.toUpperCase().indexOf(filterInvoiceNumber) > -1) {
+                cards[i].style.display = ' ';
+            } else {
+                cards[i].style.display = 'none';
+            }
+        });
+    }
+};
 
 //! init cards from localStorage to html -> cards
 function initCards() {
@@ -359,5 +370,3 @@ for (_x in localStorage) {
     _lsTotal += _xLen;
 }
 console.log('Total = ' + (_lsTotal / 1024).toFixed(2) + ' KB');
-
-//TODO: localstorage
