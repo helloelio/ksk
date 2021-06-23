@@ -32,9 +32,9 @@
                     <label class="form__title" for="form">Filters</label>
                     <form id="form" action="#">
                         <label for="id">ID</label>
-                        <input id='id' type="text" placeholder="Enter value">
-                        <label for="Invoice-number">Invoice number</label>
-                        <input id='Invoice-number' type="text" placeholder="Enter value">
+                        <input id='filter-id' type="text" placeholder="Enter value">
+                        <label for="invoice-number">Invoice number</label>
+                        <input id='filter-invoice-number' type="text" placeholder="Enter value" onkeyup=searchCard()>
                         <label for="date">Time of arrival for unloading</label>
                         from <input id='date-start' type="date"> by <input id='date-end' type="date">
                         <label for="filter-select">Order type</label>
@@ -127,26 +127,3 @@
 </body>
 
 </html>
-
-<!-- <div class="cards__item">
-                        <div class="card__header">
-                            <div class="card__name">Card 1</div>
-                            <div class="card__buttons">
-                                <button class="drag-btn"><img src="./icons/move.png" alt=""></button>
-                                <button class="menu-btn"><img src="./icons/menu.png" alt="">
-                                </button>
-
-                                <div class="edit-modal">
-                                    <button class="edit-btn"><img src="./icons/edit.png" alt="">
-                                        Редактировать</button>
-                                    <button class="delete-btn"><img src="./icons/close.png" alt=""> Удалить</button>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="card__body">
-                            <div class="card__id">ID: 1</div>
-                            <div class="card__date">Дата создания: 19.06.2021</div>
-                            <div class="card__type">Тип: RUSG</div>
-                        </div>
-        </div> -->
