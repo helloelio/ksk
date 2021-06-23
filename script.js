@@ -247,21 +247,25 @@ let createCard = (
 
     //!  edit card by button from(menu)
     //TODO: fix edit fucntion
-    // document.querySelector(`.edit-btn-${id}`).addEventListener('click', () => {
-    //     document
-    //         .querySelector(`.card-buttons-menu-${id}`)
-    //         .classList.remove('card-buttons-menu-flex');
-    //     document.querySelector('#edit-card-number').value = inputCardNumber;
-    //     document.querySelector('#edit-select').value = selectOptionType;
-    //     editModal.classList.add('edit-modal-flex');
-    //     let arr = [];
-    //     console.log(localStorage.getItem(`cards-${inputCardNumber - 1}`));
-    //     arr.push(
-    //         JSON.parse(localStorage.getItem(`cards-${inputCardNumber - 1}`))
-    //     );
-    //     console.log(arr[0]);
-    //     localStorage.removeItem(`cards-${inputCardNumber - 1}`);
-    // });
+    document.querySelector(`.edit-btn-${id}`).addEventListener('click', () => {
+        document
+            .querySelector(`.card-buttons-menu-${id}`)
+            .classList.remove('card-buttons-menu-flex');
+        document.querySelector('#edit-card-number').value = inputCardNumber;
+        document.querySelector('#edit-select').value = selectOptionType;
+        editModal.classList.add('edit-modal-flex');
+        let arr = [];
+        console.log(localStorage.getItem(`cards-${id}`));
+        arr.push(JSON.parse(localStorage.getItem(`cards-${id}`)));
+        document.querySelector('.edit-card').addEventListener('click', () => {
+            arr[0].inputCardNumber =
+                document.querySelector('#edit-card-number').value;
+            arr[0].selectOptionType =
+                document.querySelector('#edit-select').value;
+            localStorage.setItem(`cards-${id}`, JSON.stringify(arr[0]));
+            window.location.reload();
+        });
+    });
 
     //!  drag card by button
     //TODO: drag and drop
