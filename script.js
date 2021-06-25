@@ -12,7 +12,7 @@ let checboxToSort = document.querySelector('#sort-select'); //? чекбокс '
 //! Счетчик
 let count = localStorage.getItem('count') || 0;
 
-//! Функция создания карточки
+//* Функция создания карточки
 let createCard = (
     selectOptionType,
     inputCardNumber,
@@ -42,7 +42,6 @@ let createCard = (
     `;
     //!  insert card in html(cards)
     cards.insertAdjacentHTML('beforeend', template);
-
     //!  check the statement(localStorage)
     if (!isInit) {
         let cardsStorage = localStorage.getItem(`cards-${id}`)
@@ -202,7 +201,7 @@ checboxToSort.addEventListener('change', () => {
         for (let i = 0; i < count; i++) {
             storageArr.push(JSON.parse(localStorage.getItem(`cards-${i}`)));
         }
-        console.log(storageArr);
+
         storageArr.sort((a, b) => {
             if (a.id < b.id) {
                 return 1;
