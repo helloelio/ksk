@@ -164,12 +164,12 @@ let closeCardMenuByKey = (event) => {
   }
 };
 //!
-let closeChangeModalMenuByButton = () => {
+let closeEditModalMenuByButton = () => {
   editModal.classList.remove('edit-modal-flex');
 };
 
 //! close modal window(edit window) by press "ESC"
-let closeChangeModalMenuByKey = (event) => {
+let closeEditModalMenuByKey = (event) => {
   if (event.key == 'Escape') {
     editModal.classList.remove('edit-modal-flex');
   }
@@ -310,8 +310,8 @@ closeCreateCardMenuButton.addEventListener(
   closeCreateCardMenuByButton
 );
 window.addEventListener('keydown', closeCardMenuByKey);
-closeEditModalButton.addEventListener('click', closeChangeModalMenuByButton);
-window.addEventListener('keydown', closeChangeModalMenuByKey);
+closeEditModalButton.addEventListener('click', closeEditModalMenuByButton);
+window.addEventListener('keydown', closeEditModalMenuByKey);
 
 //TODO: fix filter function
 let searchCard = () => {
