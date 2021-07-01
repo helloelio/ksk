@@ -1,129 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="./style.css">
-    <link rel="icon" href="./icons/plus.svg">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="icon" href="./icons/plus.svg" />
     <title>КСК - Тестовое задание</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <header class="header">
-        <h1 class="header__title">Тестовое задание</h1>
+      <h1 class="header__title">Тестовое задание</h1>
     </header>
     <main>
-        <!-- container -->
-        <div class="container">
-            <!-- left side -->
-            <div class="left-side">
-                <div class="card__create">
-                    <div class="card__button">
-                        <button class="add-button"><img src="./icons/plus.svg" alt=""> ДОБАВИТЬ</button>
-                    </div>
-                </div>
-                <!-- filter block -->
-                <div class="card__filter">
-                    <label class="form__title" for="form">Filters</label>
-                    <form id="form" action="#">
-                        <label for="id">ID</label>
-                        <input id='filter-id' type="text" placeholder="Enter value">
-                        <label for="invoice-number">Invoice number</label>
-                        <input id='filter-invoice-number' type="text" placeholder="Enter value" onkeyup=searchCard()>
-                        <label for="date">Time of arrival for unloading</label>
-                        from <input id='date-start' type="date"> by <input id='date-end' type="date">
-                        <label for="filter-select">Order type</label>
-                        <select id="filter-select" aria-placeholder="RUED">
-                            <option value="RUED">RUED</option>
-                            <option value="RUEX">RUEX</option>
-                            <option value="RUSG">RUSG</option>
-                        </select>
-                    </form>
-                </div>
-                <!-- filter block -->
+      <!-- container -->
+      <div class="container">
+        <!-- left side -->
+        <div class="left-side">
+          <div class="card__create">
+            <div class="card__button">
+              <button class="add-button">
+                <img src="./icons/plus.svg" alt="" /> ДОБАВИТЬ
+              </button>
             </div>
-            <!-- left side -->
-
-            <!-- right side -->
-            <div class="right-side">
-                <!-- sort block -->
-                <div class="card__sort">
-                    <select id="sort-select">
-                        <option value="Sorting">Sorting</option>
-                        <option value="Sort by ID: ascending">Sort by ID: ascending</option>
-                        <option value="Sort by ID: descending">Sort by ID: descending</option>
-                        <option value="Sort by Date of creation: ascending">Sort by Date of creation: ascending</option>
-                        <option value="Sort by Date of creation: descending">Sort by Date of creation: descending
-                        </option>
-                        <option value="Sort by Order Type: ascending">Sort by Order Type: ascending</option>
-                        <option value="Sort by Order type: descending">Sort by Order type: descending</option>
-                    </select>
-                    <input type="checkbox" id='checkbox-drag'> Enable drag and drop
-                </div>
-                <!-- sort block -->
-
-                <!-- cards block -->
-                <div class="cards">
-                    <!-- card items -->
-
-                </div>
-                <!-- cards block -->
-            </div>
-            <!-- right side -->
+          </div>
+          <!-- filter block -->
+          <div class="card__filter">
+            <label class="form__title" for="form">Filters</label>
+            <form id="form" action="#">
+              <label for="id">ID</label>
+              <input id="filter-id" type="text" placeholder="Enter value" />
+              <label for="invoice-number">Invoice number</label>
+              <input
+                id="filter-invoice-number"
+                type="text"
+                placeholder="Enter value"
+                onkeyup="searchCard()"
+              />
+              <label for="date">Time of arrival for unloading</label>
+              from <input id="date-start" type="date" /> by
+              <input id="date-end" type="date" />
+              <label for="filter-select">Order type</label>
+              <select id="filter-select" aria-placeholder="RUED">
+                <option value="RUED">RUED</option>
+                <option value="RUEX">RUEX</option>
+                <option value="RUSG">RUSG</option>
+              </select>
+            </form>
+          </div>
+          <!-- filter block -->
         </div>
+        <!-- left side -->
+
+        <!-- right side -->
+        <div class="right-side">
+          <!-- sort block -->
+          <div class="card__sort">
+            <select id="sort-select">
+              <option value="Sorting">Sorting</option>
+              <option value="Sort by ID: ascending">
+                Sort by ID: ascending
+              </option>
+              <option value="Sort by ID: descending">
+                Sort by ID: descending
+              </option>
+              <option value="Sort by Date of creation: ascending">
+                Sort by Date of creation: ascending
+              </option>
+              <option value="Sort by Date of creation: descending">
+                Sort by Date of creation: descending
+              </option>
+              <option value="Sort by Order Type: ascending">
+                Sort by Order Type: ascending
+              </option>
+              <option value="Sort by Order type: descending">
+                Sort by Order type: descending
+              </option>
+            </select>
+            <input type="checkbox" id="checkbox-drag" /> Enable drag and drop
+          </div>
+          <!-- sort block -->
+
+          <!-- cards block -->
+          <div class="cards">
+            <!-- card items -->
+          </div>
+          <!-- cards block -->
+        </div>
+        <!-- right side -->
+      </div>
     </main>
     <footer class="footer"></footer>
 
     <!-- modal -->
     <div class="modal">
-        <div class="modal__content">
-            <div class="modal__title">Добавление</div>
-            <form action="#" class="create-new-card">
-                <label for="">Номер накладной </label>
-                <input id="card-number" type="text" placeholder="Введите значение">
-                <label for="create-select">Тип заказа </label>
-                <select id="create-select">
-                    <option value="RUED">RUED</option>
-                    <option value="RUEX">RUEX</option>
-                    <option value="RUSG">RUSG</option>
-                </select>
-            </form>
-            <button class="create-card" disabled>Добавить</button>
-        </div>
-        <span class="close">×</span>
+      <div class="modal__content">
+        <div class="modal__title">Добавление</div>
+        <form action="#" class="create-new-card">
+          <label for="">Номер накладной </label>
+          <input id="card-number" type="text" placeholder="Введите значение" />
+          <label for="create-select">Тип заказа </label>
+          <select id="create-select">
+            <option value="RUED">RUED</option>
+            <option value="RUEX">RUEX</option>
+            <option value="RUSG">RUSG</option>
+          </select>
+        </form>
+        <button class="create-card" disabled>Добавить</button>
+      </div>
+      <span class="close">×</span>
     </div>
     <!-- modal -->
 
     <!-- edit modal -->
     <div class="edit-modal">
-        <div class="edit-modal__content">
-            <div class="edit-modal__title">Редактирование</div>
-            <form action="#" class="edit-current-card">
-                <label for="">Номер накладной </label>
-                <input id="edit-card-number" type="text" placeholder="Введите значение">
-                <label for="edit-select">Тип заказа </label>
-                <select id="edit-select">
-                    <option value="RUED">RUED</option>
-                    <option value="RUEX">RUEX</option>
-                    <option value="RUSG">RUSG</option>
-                </select>
-            </form>
-            <button class="edit-card">Редактировать</button>
-        </div>
-        <span class="change-close">×</span>
+      <div class="edit-modal__content">
+        <div class="edit-modal__title">Редактирование</div>
+        <form action="#" class="edit-current-card">
+          <label for="">Номер накладной </label>
+          <input
+            id="edit-card-number"
+            type="text"
+            placeholder="Введите значение"
+          />
+          <label for="edit-select">Тип заказа </label>
+          <select id="edit-select">
+            <option value="RUED">RUED</option>
+            <option value="RUEX">RUEX</option>
+            <option value="RUSG">RUSG</option>
+          </select>
+        </form>
+        <button class="edit-card">Редактировать</button>
+      </div>
+      <span class="change-close">×</span>
     </div>
     <!-- edit modal -->
     <script src="./script.js"></script>
+    <script src="https://unpkg.com/lodash@4.17.21/lodash.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-
-    </script>
-</body>
-
+  </body>
 </html>
