@@ -180,17 +180,19 @@ checboxToSort.addEventListener('change', () => {
   //! sort by ID: ascending
   if (checboxToSort.value == 'Sort by ID: ascending') {
     const storageArr = [];
+    console.log(storageArr);
     for (let i = 0; i < count; i++) {
       storageArr.push(JSON.parse(localStorage.getItem(`cards-${i}`)));
     }
-    storageArr.sort((a, b) => {
+    let filteredStorageArr = _.compact(storageArr);
+    filteredStorageArr.sort((a, b) => {
       if (a.id > b.id) {
         return 1;
       }
     });
     for (let w = 0; w < count; w++) {
       localStorage.removeItem(`cards-${w}`);
-      localStorage.setItem(`cards-${w}`, JSON.stringify(storageArr[w]));
+      localStorage.setItem(`cards-${w}`, JSON.stringify(filteredStorageArr[w]));
     }
     window.location.reload();
   }
@@ -337,10 +339,12 @@ let searchCard = () => {
 //! init cards from localStorage to html -> cards
 function initCards() {
   let cards = [];
-
+  //TODO: FIX
   for (let i = 0; i < count; i++) {
     cards.push(JSON.parse(localStorage.getItem(`cards-${i}`)));
   }
+  console.log(cards);
+
   for (let card of cards) {
     if (card == null) {
       continue;
