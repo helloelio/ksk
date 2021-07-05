@@ -381,8 +381,25 @@ main {
   cursor: pointer;
 }
 /* change modal */
+@media screen and (max-width: 1400px) {
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1040px) {
+  .right-side {
+    width: 63%;
+  }
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+  .cards__item {
+    height: 250px;
+    width: 280px;
+  }
+}
+@media only screen and (max-width: 860px) {
   .header {
     text-align: center;
   }
